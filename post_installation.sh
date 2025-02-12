@@ -1,9 +1,5 @@
 #!/bin/sh
 
-# Variables
-PLYMOUTH_THEME="https://github.com/adi1090x/plymouth-themes/releases/download/v1.0/connect.tar.gz"
-PLYMOUTH_THEME_NAME="connect"
-
 # Ensure that .ssh folder exists
 if [ ! -d "$HOME/.ssh" ]; then
     echo "Copy .ssh folder over your home!"
@@ -57,14 +53,3 @@ sudo fc-cache -vf # Reload font cache
 
 # Prepare home folder
 mkdir $HOME/Documents $HOME/Downloads $HOME/Software $HOME/Pictures $HOME/Videos
-
-# Plymouth
-sudo sed -i "s/block /block plymouth /g" /etc/mkinitcpio.conf
-sudo mkinitcpio -p linux
-wget $PLYMOUTH_THEME -O $HOME/Downloads/theme.tar.gz && cd $HOME/Downloads && tar -xpvf theme.tar.gz
-rm -f theme.tar.gz
-sudo cp -r $PLYMOUTH_THEME_NAME /usr/share/plymouth/themes && cd
-sudo plymouth-set-default-theme -l
-sudo plymouth-set-default-theme -R $PLYMOUTH_THEME_NAME
-rm -rf $HOME/Downloads/$PLYMOUTH_THEME_NAME
-echo "Remember to add 'splash' to kernel parameters in /etc/default/grub."
