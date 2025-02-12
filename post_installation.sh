@@ -40,6 +40,7 @@ echo 'Server = https://gitlab.com/Oglo12/$repo/-/raw/main/$arch' | sudo tee -a /
 sudo pacman -Syy --noconfirm rebos
 
 # Apply rebos configuration
+ln -s $HOME/.config/rebos/machines/$HOST $HOME/.config/rebos/gen.toml
 rebos setup
 rebos gen commit "First generation"
 rebos gen current to-latest
