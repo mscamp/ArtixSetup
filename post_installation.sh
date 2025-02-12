@@ -10,13 +10,13 @@ if [ ! -d "$HOME/.ssh" ]; then
     exit 1
 fi
 
-# Ensure that git is installed
-if pacman -Q "git" &> /dev/null; then
-    echo "Git is installed. Cloning dotfiles..."
+# Ensure that openssh is installed
+if pacman -Q "openssh" &> /dev/null; then
+    echo "openssh is installed. Cloning dotfiles..."
 else
-    echo "Git is not installed. Installing..."
-    sudo pacman -S --noconfirm git
-    echo "Git is now installed. Cloning dotfiles..."
+    echo "openssh is not installed. Installing..."
+    sudo pacman -S --noconfirm openssh
+    echo "openssh is now installed. Cloning dotfiles..."
 fi
 
 # Clone dotfiles repo
