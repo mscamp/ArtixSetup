@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# Variables
+HOST_NAME=$(cat /etc/hostname)
+
 # Ensure that .ssh folder exists
 if [ ! -d "$HOME/.ssh" ]; then
     echo "Copy .ssh folder over your home!"
@@ -40,7 +43,7 @@ echo 'Server = https://gitlab.com/Oglo12/$repo/-/raw/main/$arch' | sudo tee -a /
 sudo pacman -Syy --noconfirm rebos
 
 # Apply rebos configuration
-ln -s $HOME/.config/rebos/machines/$HOST $HOME/.config/rebos/gen.toml
+ln -s $HOME/.config/rebos/machines/$HOST_NAME/gen.toml $HOME/.config/rebos/
 rebos setup
 rebos gen commit "First generation"
 rebos gen current to-latest
