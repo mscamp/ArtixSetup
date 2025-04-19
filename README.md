@@ -1,2 +1,2 @@
-# EndeavourOS post-install scripts
-This repository contains my post-install scripts for EndeavourOS (btw).
+# Artix Linux post-install script
+This repository contains my post-install script for Artix Linux.
