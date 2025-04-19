@@ -1,20 +1,17 @@
 #!/bin/sh
 
-# Variables
-HOST_NAME=$(cat /etc/hostname)
-
 # Ensure that .ssh folder exists
 if [ ! -d "$HOME/.ssh" ]; then
-    echo "Copy .ssh folder over your home!"
+    echo "Copy .ssh folder to your home folder!"
     exit 1
 fi
 
 # Ensure that openssh is installed
 if pacman -Q "openssh" &> /dev/null; then
-    echo "openssh is installed. Cloning dotfiles..."
+    echo "openssh is already installed. Cloning dotfiles..."
 else
     echo "openssh is not installed. Installing..."
-    sudo pacman -S --noconfirm openssh
+    doas pacman -S --noconfirm openssh
     echo "openssh is now installed. Cloning dotfiles..."
 fi
 
@@ -28,32 +25,40 @@ dots checkout
 dots config --local status.showUntrackedFiles no
 
 # Pacman config
-sudo sed -i "s/^#ParallelDownloads = 5$/ParallelDownloads = 15/" /etc/pacman.conf
-sudo sed -i "s/^#Color$/Color/" /etc/pacman.conf
-sudo sed -i "s/^#CheckSpace$/CheckSpace/" /etc/pacman.conf
-sudo sed -i "s/^#VerbosePkgList$/VerbosePkgList/" /etc/pacman.conf
-sudo sed -i "s/^#ILoveCandy$/ILoveCandy/" /etc/pacman.conf
+doas sed -i "s/^#ParallelDownloads = 5$/ParallelDownloads = 15/" /etc/pacman.conf
+doas sed -i "s/^#Color$/Color/" /etc/pacman.conf
+doas sed -i "s/^#CheckSpace$/CheckSpace/" /etc/pacman.conf
+doas sed -i "s/^#VerbosePkgList$/VerbosePkgList/" /etc/pacman.conf
+doas sed -i "s/^#ILoveCandy$/ILoveCandy/" /etc/pacman.conf
 
-# Add Oglo's Arch Repo
-echo "[oglo-arch-repo]" | sudo tee -a /etc/pacman.conf
-echo "SigLevel = Optional DatabaseOptional" | sudo tee -a /etc/pacman.conf
-echo 'Server = https://gitlab.com/Oglo12/$repo/-/raw/main/$arch' | sudo tee -a /etc/pacman.conf
+# Install zsh
+if pacman -Q "zsh" &> /dev/null; then
+    echo "zsh is installed."
+else
+    echo "zsh is not installed. Installing..."
+    doas pacman -S --noconfirm zsh
+    echo "zsh is now installed."
+    chsh -s /usr/bin/zsh # Change shell to zsh
+fi
 
-# Install rebos
-sudo pacman -Syy --noconfirm rebos
+# Install fontconfig
+if pacman -Q "fontconfig" &> /dev/null; then
+    echo "fontconfig is installed."
+else
+    echo "fontconfig is not installed. Installing..."
+    doas pacman -S --noconfirm fontconfig
+    echo "fontconfig is now installed."
+fi
 
-# Apply rebos configuration
-ln -s $HOME/.config/rebos/machines/$HOST_NAME/gen.toml $HOME/.config/rebos/
-rebos setup
-rebos gen commit "First generation"
-rebos gen current to-latest
-rebos gen current build
-
-# Change shell to zsh
-chsh -s /usr/bin/zsh
-
-# Font
-sudo fc-cache -vf # Reload font cache
+# Install custom font
+if pacman -Q "ttf-jetbrains-mono-nerd" &> /dev/null; then
+    echo "ttf-jetbrains-mono-nerd is installed."
+else
+    echo "ttf-jetbrains-mono-nerd is not installed. Installing..."
+    doas pacman -S --noconfirm ttf-jetbrains-mono-nerd
+    echo "ttf-jetbrains-mono-nerd is now installed."
+    doas fc-cache -vf # Reload font cache
+fi
 
 # Prepare home folder
 mkdir $HOME/Documents $HOME/Downloads $HOME/Software $HOME/Pictures $HOME/Videos
