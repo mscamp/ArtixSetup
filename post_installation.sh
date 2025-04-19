@@ -20,7 +20,7 @@ git config --global init.defaultBranch main # Set default branch to "main" inste
 alias dots='/usr/bin/git --git-dir=$HOME/dotfiles/ --work-tree=$HOME' # Set alias
 echo "dotfiles" >> $HOME/.gitignore # To avoid recursion problems
 rm $HOME/.bashrc # Remove .bashrc, because it will be replaced
-git clone --bare git@github.com:mscamp/dotfiles.git $HOME/dotfiles # Clone dotfiles
+git clone --bare git@github.com:mscamp/dotfiles_artix.git $HOME/dotfiles # Clone dotfiles
 dots checkout 
 dots config --local status.showUntrackedFiles no
 
