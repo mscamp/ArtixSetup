@@ -7,13 +7,7 @@ if [ ! -d "$HOME/.ssh" ]; then
 fi
 
 # Ensure that openssh is installed
-if pacman -Q "openssh" &>/dev/null; then
-	echo "openssh is already installed. Cloning dotfiles..."
-else
-	echo "openssh is not installed. Installing..."
-	doas pacman -S --noconfirm openssh
-	echo "openssh is now installed. Cloning dotfiles..."
-fi
+doas pacman -Syu --needed --noconfirm openssh
 
 # Clone dotfiles repo
 git config --global init.defaultBranch main                                # Set default branch to "main" instead of "master"
@@ -31,3 +25,7 @@ doas sed -i "s/^#CheckSpace$/CheckSpace/" /etc/pacman.conf
 doas sed -i "s/^#VerbosePkgList$/VerbosePkgList/" /etc/pacman.conf
 doas sed -i "s/^#ILoveCandy$/ILoveCandy/" /etc/pacman.conf
 doas sed -i "s/^#HookDir     = \/etc\/pacman\.d\/hooks\/$/HookDir = \/home\/scampo\/.config\/pacman\/pacman_hooks\//" /etc/pacman.conf
+
+# Install packages
+LOCKFILE="/home/scampo/.config/pacman/lockfile.txt"
+while read PKG; do doas pacman -Syyu --needed --noconfirm "$PKG"; done < $LOCKFILE
