@@ -30,3 +30,4 @@ doas sed -i "s/^#Color$/Color/" /etc/pacman.conf
 doas sed -i "s/^#CheckSpace$/CheckSpace/" /etc/pacman.conf
 doas sed -i "s/^#VerbosePkgList$/VerbosePkgList/" /etc/pacman.conf
 doas sed -i "s/^#ILoveCandy$/ILoveCandy/" /etc/pacman.conf
+doas sed -i "s/^#HookDir     = \/etc\/pacman\.d\/hooks\/$/HookDir = \/home\/scampo\/.config\/pacman\/pacman_hooks\//" /etc/pacman.conf
