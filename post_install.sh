@@ -28,4 +28,4 @@ doas sed -i "s/^#HookDir     = \/etc\/pacman\.d\/hooks\/$/HookDir = \/home\/scam
 
 # Install packages
 LOCKFILE="/home/scampo/.config/pacman/lockfile.txt"
-while read PKG; do doas pacman -Syu --needed --noconfirm "$PKG"; done < $LOCKFILE
+while read PKG; do doas pacman -Syu --needed --noconfirm "$PKG"; done < "$LOCKFILE"
